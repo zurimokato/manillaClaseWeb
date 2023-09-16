@@ -6,7 +6,7 @@ import Pago from './components/Pago'
 
 export default function App() {
   return <Routes>
-    <Route path='/' element={<Home/>}/>
+    <Route path='/' element={<RegistroUsuario/>}/>
     <Route path='singIn' element={<RegistroUsuario/>}/>
     <Route path='manilla' element={<Manilla/>}/>
     <Route path='pago' element={<Pago/>}/>
