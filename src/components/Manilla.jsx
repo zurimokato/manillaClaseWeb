@@ -135,7 +135,7 @@ function Manilla() {
         obtenerTipo();
         obtenerDije();
 
-    })
+    },[])
 
     return (
         <div className='container-fluid'>
