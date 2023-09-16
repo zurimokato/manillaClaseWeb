@@ -1,6 +1,8 @@
 import  { useEffect, useState } from 'react'
 import { db } from '../firebase'
 import { collection, query, where, getDocs } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom';
+
 
 function Manilla() {
     const [material, setMaterial] = useState("");
@@ -12,6 +14,14 @@ function Manilla() {
     const [manillas, setManillas] = useState([]);
     const [conversion, setConversion] = useState(1);
     const [moneda, setMoneda] = useState(1);
+    const navigateTo = useNavigate();
+
+    
+
+    const handlepago=()=>{
+        navigateTo('/pago')
+
+    }
 
     const addCarrito = async e => {
         e.preventDefault();
@@ -283,6 +293,21 @@ function Manilla() {
                             </div>
                         </div>
                     </div>
+
+                    <div>
+                    <div className="row mt-2">
+
+                        <div className="d-grid gap-2 col-6 mx-auto">
+
+
+                        <button  type="button" className="btn btn-outline-danger" onClick={handlepago}>Comprar</button>
+
+
+                        </div>
+
+                    </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
