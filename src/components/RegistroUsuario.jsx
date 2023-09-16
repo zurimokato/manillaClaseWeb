@@ -1,14 +1,16 @@
 import  {  useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 
 
 function RegistroUsuario() {
+  const navigateTo = useNavigate();
+
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
 
 
 
@@ -21,7 +23,7 @@ function RegistroUsuario() {
 
     console.log(user);
 
-    fetch('http://localhost:8080/api/v1/auth/register',{
+    /*fetch('http://localhost:8080/api/v1/auth/register',{
       method: 'POST',
       body: JSON.stringify({
         name,email,password
@@ -34,7 +36,15 @@ function RegistroUsuario() {
       .then(res => {
         console.log(res);
         return res.json();
-      })
+      }).then(response=>{
+        console.log(response);
+
+      })*/
+
+      navigateTo('/manilla')
+
+
+
 
 
 
