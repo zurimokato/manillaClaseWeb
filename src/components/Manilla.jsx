@@ -22,6 +22,7 @@ function Manilla() {
         navigateTo('/pago')
 
     }
+    const [valorDolar, setValorDolar] = useState(1);
 
     const addCarrito = async e => {
         e.preventDefault();
@@ -83,7 +84,36 @@ function Manilla() {
             setConversion(1);
 
         } else if (value == 2) {
-            setConversion(5000);
+            const apiUrl = 'http://apilayer.net/api/live?access_key=40da905655b8bfc5c44974226367c4ea&currencies=COP';
+
+            // Crea una nueva instancia de XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+
+            // Configura la solicitud
+            xhr.open('GET', apiUrl, true);
+
+            // Maneja la carga exitosa de datos
+            xhr.onload = function () {
+            if (xhr.status === 200) {
+                const jsonResponse = JSON.parse(xhr.responseText);
+                
+                // Aquí puedes trabajar con los datos recibidos de la API
+                console.log(jsonResponse.quotes.USDCOP.toFixed(2));
+                setValorDolar(jsonResponse.quotes.USDCOP.toFixed(2));
+            } else {
+                console.error('Error en la solicitud a la API');
+            }
+            };
+
+            // Maneja errores de red u otros errores
+            xhr.onerror = function () {
+            console.error('Error en la solicitud a la API');
+            };
+
+            // Envía la solicitud
+            xhr.send();
+            console.log(valorDolar)
+            setConversion(valorDolar);
         }
 
     }
