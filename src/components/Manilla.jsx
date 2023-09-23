@@ -20,9 +20,17 @@ function Manilla() {
 
   const handlepago = () => {
     let productos = manillas;
+    const str = calcularTotal();
+    const formattedStr = str.replace(/\./g, "").replace(/,/, ".");
+
+    if(moneda=="2"){
+        for(let i=0;i<productos.length;i++){
+            productos[i].valor=(productos[i].valor*valorDolar).toFixed(4);
+        }
+    }
     let carrito = {
       idUsuario: idUsuario,
-      total: calcularTotal(),
+      total: parseFloat(formattedStr),
       moneda: moneda,
       productos: productos,
     };
@@ -58,7 +66,7 @@ function Manilla() {
 
     if (material === "" || dije === "" || tipo === "") {
       alert(
-        "Hay obciones no seleccionadas por favor seleccionar obciones mandatorias "
+        "Hay opciones no seleccionadas por favor seleccionar opciones mandatorias "
       );
       return;
     }

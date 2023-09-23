@@ -1,5 +1,69 @@
+import { useEffect, useState } from "react";
+
 
 function Pago() {
+
+
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [cantidad, setCantidad] = useState(0);
+  const [manillas, setManillas] = useState([]);
+  const [moneda, setMoneda] = useState("");
+  const [total, setTotal] = useState(0);
+
+
+
+
+  const calcularCantidad = (productos) => {
+    let cant = 0;
+    for (let p = 0; p < productos.length; p++) {
+      console.log(productos[p]);
+      cant = cant + productos[p].cantidad;
+    }
+
+    return cant;
+
+  }
+
+  const handleClick=()=>{
+    //navigateTo("/home");
+  }
+
+  useEffect(() => {
+
+    const obternerInfoUsuario = async () => {
+      let user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        console.log(user)
+        setNombre(user.name);
+        setCorreo(user.email);
+      }
+    };
+
+
+    const obternerInfoCarrito = async () => {
+      let carrito = JSON.parse(localStorage.getItem("carrito"));
+      if (carrito) {
+        console.log(carrito);
+
+        setCantidad(calcularCantidad(carrito.productos));
+        setManillas(carrito.productos)
+        setTotal(carrito.total);
+        if(carrito.moneda=="1"){
+          setMoneda("USD")
+        }else{
+          setMoneda("COP")
+        }
+      }
+    };
+
+
+
+    obternerInfoUsuario();
+    obternerInfoCarrito();
+
+
+  }, [])
   return (
     <div>
       <div className="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
@@ -41,49 +105,33 @@ function Pago() {
       <div className="container">
         <main>
           <div className="py-5 text-center">
-            <img className="d-block mx-auto mb-4" src="../images/checkout.png" alt="" width="72" height="57" />
             <h2>Checkout form</h2>
-            <p className="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
           </div>
-
           <div className="row g-5">
             <div className="col-md-5 col-lg-4 order-md-last">
               <h4 className="d-flex justify-content-between align-items-center mb-3">
-                <span className="text-primary">Your cart</span>
-                <span className="badge bg-primary rounded-pill">3</span>
+                <span className="text-primary">Tu carrito</span>
+                <span className="badge bg-primary rounded-pill">{cantidad}</span>
               </h4>
               <ul className="list-group mb-3">
-                <li className="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 className="my-0">Product name</h6>
-                    <small className="text-body-secondary">Brief description</small>
-                  </div>
-                  <span className="text-body-secondary">$12</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 className="my-0">Second product</h6>
-                    <small className="text-body-secondary">Brief description</small>
-                  </div>
-                  <span className="text-body-secondary">$8</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 className="my-0">Third item</h6>
-                    <small className="text-body-secondary">Brief description</small>
-                  </div>
-                  <span className="text-body-secondary">$5</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between bg-body-tertiary">
-                  <div className="text-success">
-                    <h6 className="my-0">Promo code</h6>
-                    <small>EXAMPLECODE</small>
-                  </div>
-                  <span className="text-success">−$5</span>
-                </li>
+                {manillas.map((item) => (
+
+                  <li className="list-group-item d-flex justify-content-between lh-sm" key={item.id}>
+                    <div>
+                      <h6 className="my-0">{item.material.toUpperCase()}</h6>
+                      <small className="text-body-secondary">{item.dije} - {item.tipo}</small>
+                    </div>
+                    <span className="text-body-secondary">${item.valor}</span>
+                  </li>
+
+                ))}
+
                 <li className="list-group-item d-flex justify-content-between">
-                  <span>Total (USD)</span>
-                  <strong>$20</strong>
+
+                  <span>Total ({moneda})</span>
+
+                  <strong>${total}</strong>
+
                 </li>
               </ul>
 
@@ -98,43 +146,23 @@ function Pago() {
               <h4 className="mb-3">Billing address</h4>
               <form className="needs-validation" >
                 <div className="row g-3">
-                  <div className="col-sm-6">
-                    <label className="form-label">First name</label>
-                    <input type="text" className="form-control" id="firstName" placeholder=""  required />
+                  <div className="col-12">
+                    <label className="form-label">Nombre</label>
+                    <input type="text" className="form-control" id="firstName" placeholder="" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
                     <div className="invalid-feedback">
                       Valid first name is required.
                     </div>
                   </div>
-
-                  <div className="col-sm-6">
-                    <label className="form-label">Last name</label>
-                    <input type="text" className="form-control" id="lastName" placeholder=""  required />
-                    <div className="invalid-feedback">
-                      Valid last name is required.
-                    </div>
-                  </div>
-
                   <div className="col-12">
-                    <label className="form-label">Username</label>
-                    <div className="input-group has-validation">
-                      <span className="input-group-text">@</span>
-                      <input type="text" className="form-control" id="username" placeholder="Username" required />
-                      <div className="invalid-feedback">
-                        Your username is required.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-12">
-                    <label className="form-label">Email <span className="text-body-secondary">(Optional)</span></label>
-                    <input type="email" className="form-control" id="email" placeholder="you@example.com" />
+                    <label className="form-label">Email <span className="text-body-secondary">(Opcional)</span></label>
+                    <input type="email" className="form-control" id="email" value={correo} onChange={(e) => setCorreo(e.target.value)} placeholder="you@example.com" />
                     <div className="invalid-feedback">
                       Please enter a valid email address for shipping updates.
                     </div>
                   </div>
 
                   <div className="col-12">
-                    <label className="form-label">Address</label>
+                    <label className="form-label">Dirección</label>
                     <input type="text" className="form-control" id="address" placeholder="1234 Main St" required />
                     <div className="invalid-feedback">
                       Please enter your shipping address.
@@ -142,37 +170,29 @@ function Pago() {
                   </div>
 
                   <div className="col-12">
-                    <label className="form-label">Address 2 <span className="text-body-secondary">(Optional)</span></label>
+                    <label className="form-label">Dirección 2 <span className="text-body-secondary">(Opcional)</span></label>
                     <input type="text" className="form-control" id="address2" placeholder="Apartment or suite" />
                   </div>
 
                   <div className="col-md-5">
-                    <label className="form-label">Country</label>
+                    <label className="form-label">Pais</label>
                     <select className="form-select" id="country" required>
-                      <option >Choose...</option>
-                      <option>United States</option>
+                      <option >Selecciona...</option>
+                      <option>Colombia</option>
                     </select>
                     <div className="invalid-feedback">
-                      Please select a valid country.
+                      Selecciona un país valido
                     </div>
                   </div>
 
                   <div className="col-md-4">
-                    <label className="form-label">State</label>
+                    <label className="form-label">Ciudad</label>
                     <select className="form-select" id="state" required>
-                      <option >Choose...</option>
-                      <option>California</option>
+                      <option >Selecciona...</option>
+                      <option>Santa Marta</option>
                     </select>
                     <div className="invalid-feedback">
-                      Please provide a valid state.
-                    </div>
-                  </div>
-
-                  <div className="col-md-3">
-                    <label className="form-label">Zip</label>
-                    <input type="text" className="form-control" id="zip" placeholder="" required />
-                    <div className="invalid-feedback">
-                      Zip code required.
+                      Selecciona una ciudad valida
                     </div>
                   </div>
                 </div>
@@ -181,71 +201,16 @@ function Pago() {
 
                 <div className="form-check">
                   <input type="checkbox" className="form-check-input" id="same-address" />
-                  <label className="form-check-label" >Shipping address is the same as my billing address</label>
+                  <label className="form-check-label" >La dirección de envío es la misma que mi dirección de facturación.</label>
                 </div>
 
                 <div className="form-check">
                   <input type="checkbox" className="form-check-input" id="save-info" />
-                  <label className="form-check-label">Save this information for next time</label>
+                  <label className="form-check-label">Guarda esta información para la próximas compras</label>
                 </div>
-
                 <hr className="my-4" />
 
-                <h4 className="mb-3">Payment</h4>
-
-                <div className="my-3">
-                  <div className="form-check">
-                    <input id="credit" name="paymentMethod" type="radio" className="form-check-input"  required />
-                    <label className="form-check-label" >Credit card</label>
-                  </div>
-                  <div className="form-check">
-                    <input id="debit" name="paymentMethod" type="radio" className="form-check-input" required />
-                    <label className="form-check-label" >Debit card</label>
-                  </div>
-                  <div className="form-check">
-                    <input id="paypal" name="paymentMethod" type="radio" className="form-check-input" required />
-                    <label className="form-check-label" >PayPal</label>
-                  </div>
-                </div>
-
-                <div className="row gy-3">
-                  <div className="col-md-6">
-                    <label className="form-label">Name on card</label>
-                    <input type="text" className="form-control" id="cc-name" placeholder="" required />
-                    <small className="text-body-secondary">Full name as displayed on card</small>
-                    <div className="invalid-feedback">
-                      Name on card is required
-                    </div>
-                  </div>
-
-                  <div className="col-md-6">
-                    <label className="form-label">Credit card number</label>
-                    <input type="text" className="form-control" id="cc-number" placeholder="" required />
-                    <div className="invalid-feedback">
-                      Credit card number is required
-                    </div>
-                  </div>
-
-                  <div className="col-md-3">
-                    <label className="form-label">Expiration</label>
-                    <input type="text" className="form-control" id="cc-expiration" placeholder="" required />
-                    <div className="invalid-feedback">
-                      Expiration date required
-                    </div>
-                  </div>
-
-                  <div className="col-md-3">
-                    <label className="form-label">CVV</label>
-                    <input type="text" className="form-control" id="cc-cvv" placeholder="" required />
-                    <div className="invalid-feedback">
-                      Security code required
-                    </div>
-                  </div>
-                </div>
-
-                <hr className="my-4" />
-
-                <button className="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+                <button className="w-100 btn btn-primary btn-lg" onClick={handleClick}>Continuar a pagar</button>
               </form>
             </div>
           </div>
