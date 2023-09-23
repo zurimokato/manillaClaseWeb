@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { db } from '../firebase'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom';
@@ -16,9 +16,9 @@ function Manilla() {
     const [moneda, setMoneda] = useState(1);
     const navigateTo = useNavigate();
 
-    
 
-    const handlepago=()=>{
+
+    const handlepago = () => {
         navigateTo('/pago')
 
     }
@@ -94,20 +94,20 @@ function Manilla() {
 
             // Maneja la carga exitosa de datos
             xhr.onload = function () {
-            if (xhr.status === 200) {
-                const jsonResponse = JSON.parse(xhr.responseText);
-                
-                // Aquí puedes trabajar con los datos recibidos de la API
-                console.log(jsonResponse.quotes.USDCOP.toFixed(2));
-                setValorDolar(jsonResponse.quotes.USDCOP.toFixed(2));
-            } else {
-                console.error('Error en la solicitud a la API');
-            }
+                if (xhr.status === 200) {
+                    const jsonResponse = JSON.parse(xhr.responseText);
+
+                    // Aquí puedes trabajar con los datos recibidos de la API
+                    console.log(jsonResponse.quotes.USDCOP.toFixed(2));
+                    setValorDolar(jsonResponse.quotes.USDCOP.toFixed(2));
+                } else {
+                    console.error('Error en la solicitud a la API');
+                }
             };
 
             // Maneja errores de red u otros errores
             xhr.onerror = function () {
-            console.error('Error en la solicitud a la API');
+                console.error('Error en la solicitud a la API');
             };
 
             // Envía la solicitud
@@ -165,7 +165,7 @@ function Manilla() {
         obtenerTipo();
         obtenerDije();
 
-    },[])
+    }, [])
 
     return (
         <div className='container-fluid'>
@@ -325,19 +325,19 @@ function Manilla() {
                     </div>
 
                     <div>
-                    <div className="row mt-2">
+                        <div className="row mt-2">
 
-                        <div className="d-grid gap-2 col-6 mx-auto">
+                            <div className="d-grid gap-2 col-6 mx-auto">
 
 
-                        <button  type="button" className="btn btn-outline-danger" onClick={handlepago}>Comprar</button>
+                                <button type="button" className="btn btn-outline-danger" onClick={handlepago}>Comprar</button>
 
+
+                            </div>
 
                         </div>
+                    </div>
 
-                    </div>
-                    </div>
-                    
                 </div>
             </div>
         </div>
