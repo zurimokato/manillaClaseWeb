@@ -61,6 +61,15 @@ function Manilla() {
         } else {
             setManillas((manillas) => [...manillas, manilla]);
         }
+
+        let productos=manillas;
+        let carrito={
+            "total": calcularTotal(),
+            "idUsuario": 1,
+            "moneda": conversion,
+            "productos":productos
+        }
+        console.log(carrito)
     }
 
     const calcularTotal = () => {
