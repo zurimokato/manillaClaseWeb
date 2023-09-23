@@ -23,7 +23,7 @@ function RegistroUsuario() {
 
     console.log(user);
 
-    /*fetch('http://localhost:8080/api/v1/auth/register',{
+    fetch('http://localhost:8080/api/v1/auth/register',{
       method: 'POST',
       body: JSON.stringify({
         name,email,password
@@ -32,17 +32,23 @@ function RegistroUsuario() {
         'Content-type': 'application/json; charset=UTF-8',
       },
 
-    })
-      .then(res => {
+    }).then(res => {
         console.log(res);
         return res.json();
       }).then(response=>{
         //guardar sesion
         console.log(response);
+
+        localStorage.setItem('user', JSON.stringify(response));
+
+
+        
         navigateTo('/manilla')
 
 
+
       })
+
 
 
 
