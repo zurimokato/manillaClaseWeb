@@ -1,16 +1,21 @@
 import Manilla from '../components/Manilla';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import RegistroUsuario from '../components/RegistroUsuario';
+import NotFoundPage from '../components/NotFoundPage';
+import Home from '../components/Home'
+import Pago from '../components/Pago'
+import Login from '../components/Login';
 
 function Rutas() {
-    return (
-        <Router>
-            <Routes>
-                <Route path="/manilla" component={Manilla} />
-                <Route path="/registro" component={RegistroUsuario} />
-            </Routes>
-        </Router>
-    );
+    return <Routes>
+        <Route path='/' element={<RegistroUsuario />} />
+        <Route path='home' element={<Home />} />
+        <Route path='singIn' element={<RegistroUsuario />} />
+        <Route path='manilla' element={<Manilla />} />
+        <Route path='pago' element={<Pago />} />
+        <Route path='logIn'element={<Login/>} />
+        <Route path='*' element={<NotFoundPage/>}/>
+    </Routes>
 }
 
 export default Rutas
